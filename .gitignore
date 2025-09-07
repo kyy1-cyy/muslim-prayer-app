@@ -3,3 +3,4 @@ database.db
 .ropeproject/
 __pycache__/
 *.pyc
+.env
