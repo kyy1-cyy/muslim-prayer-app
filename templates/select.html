@@ -1,0 +1,25 @@
+{% extends "base.html" %} {% block title %}Prayer Selection{% endblock %} {%
+block content %}
+<form method="POST">
+    {% for prayer in all_prayers %}
+    <div class="checkbox-item">
+        <input
+            type="checkbox"
+            id="{{ prayer }}"
+            name="prayers"
+            value="{{ prayer }}"
+            {%
+            if
+            prayer
+            in
+            selected_prayers
+            %}checked{%
+            endif
+            %}
+        />
+        <label for="{{ prayer }}">{{ prayer }}</label>
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn">Apply</button>
+</form>
+{% endblock %}

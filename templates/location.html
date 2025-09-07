@@ -1,0 +1,14 @@
+{% extends "base.html" %} {% block title %}Set Location{% endblock %} {% block
+content %}
+<form method="POST" action="{{ url_for('location') }}">
+    <div class="form-group">
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" required />
+    </div>
+    <div class="form-group">
+        <label for="country">Country:</label>
+        <input type="text" id="country" name="country" required />
+    </div>
+    <button type="submit" class="btn">Set Location</button>
+</form>
+{% endblock %}

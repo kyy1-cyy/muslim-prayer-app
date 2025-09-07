@@ -1,0 +1,104 @@
+/* static/style.css */
+body {
+    background-color: #031919;
+    color: #f0f0f0;
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.header {
+    background-color: #0a2e2e;
+    padding: 1rem;
+    text-align: center;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 1rem;
+    overflow-y: auto;
+}
+
+.nav-bar {
+    display: flex;
+    justify-content: space-around;
+    background-color: #0a2e2e;
+    padding: 1rem 0;
+    position: sticky;
+    bottom: 0;
+}
+
+.nav-bar a {
+    color: #f0f0f0;
+    text-decoration: none;
+    font-size: 1.2rem;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.nav-bar a.active,
+.nav-bar a:hover {
+    background-color: #0d3a3a;
+}
+
+.prayer-list {
+    list-style: none;
+    padding: 0;
+}
+
+.prayer-item {
+    background-color: #0d3a3a;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.prayer-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.prayer-time {
+    font-size: 1.2rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+input[type="text"],
+select {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #1a4d4d;
+    color: #f0f0f0;
+}
+
+.btn {
+    background-color: #1a4d4d;
+    color: #f0f0f0;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.checkbox-item input[type="checkbox"] {
+    margin-right: 1rem;
+}

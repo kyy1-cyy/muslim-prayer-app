@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Prayer App</title>
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='style.css') }}"
+        />
+    </head>
+    <body>
+        <div class="header">
+            <h1>{% block title %}{% endblock %}</h1>
+        </div>
+        <div class="content">{% block content %}{% endblock %}</div>
+        <div class="nav-bar">
+            <a
+                href="{{ url_for('index') }}"
+                class="{% if request.path == url_for('index') %}active{% endif %}"
+                >Prayer Times</a
+            >
+            <a
+                href="{{ url_for('select') }}"
+                class="{% if request.path == url_for('select') %}active{% endif %}"
+                >Prayer Selection</a
+            >
+            <a
+                href="{{ url_for('location') }}"
+                class="{% if request.path == url_for('location') %}active{% endif %}"
+                >Location Set</a
+            >
+        </div>
+    </body>
+</html>
