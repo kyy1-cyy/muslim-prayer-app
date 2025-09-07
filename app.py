@@ -178,8 +178,16 @@ def location():
         return redirect(url_for('index'))
     return render_template('location.html')
 
+@app.before_request
+def before_request():
+    # Initialize the database before each request if it hasn't been already.
+    # This is a simple approach for SQLite in a stateless environment.
+    if not hasattr(g, '_database_initialized'):
+        init_db()
+        g._database_initialized = True
+
 if __name__ == '__main__':
-    init_db()
-    # Now, start the background thread after the database has been initialized
+    # The notification thread is started here for local development.
+    # For production, a more robust solution like a separate worker process would be better.
     threading.Thread(target=notification_thread, daemon=True).start()
     app.run(debug=True)
