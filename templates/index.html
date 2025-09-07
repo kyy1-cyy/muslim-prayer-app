@@ -1,19 +1,23 @@
-{% extends "base.html" %} {% block title %}Prayer Times{% endblock %} {% block
-content %} {% if no_location %}
-<h2 style="text-align: center">Please set your location.</h2>
-<p style="text-align: center">Go to the Location Set tab to get started.</p>
-{% elif prayer_times %}
-<p>Times for **{{ city }}, {{ country }}**</p>
-<ul class="prayer-list">
-    {% for prayer, time in prayer_times.items() %}
-    <li class="prayer-item">
-        <span class="prayer-name">{{ prayer }}</span>
-        <span class="prayer-time">{{ time }}</span>
-    </li>
-    {% endfor %}
-</ul>
-{% else %}
-<p style="text-align: center">
-    Could not retrieve prayer times. Please check your location spelling.
-</p>
-{% endif %} {% endblock %}
+{% extends "base.html" %}
+
+{% block title %}Prayer Times{% endblock %}
+
+{% block content %}
+    {% if no_location %}
+        <h2 style="text-align: center;">Please set your location.</h2>
+        <p style="text-align: center;">Go to the Location Set tab to get started.</p>
+    {% elif prayer_times %}
+        <p>Times for **{{ city }}, {{ country }}**</p>
+        <ul class="prayer-list">
+            {% for prayer, time in prayer_times.items() %}
+                <li class="prayer-item">
+                    <span class="prayer-name">{{ prayer }}</span>
+                    <span class="prayer-time">{{ time }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+        <button id="notification-btn" class="btn" style="width: 100%;">Enable Notifications</button>
+    {% else %}
+        <p style="text-align: center;">Could not retrieve prayer times. Please check your location spelling.</p>
+    {% endif %}
+{% endblock %}
