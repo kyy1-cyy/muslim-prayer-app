@@ -42,7 +42,7 @@ ALADHAN_API = "http://api.aladhan.com/v1/timingsByCity"
 
 VAPID_PRIVATE_KEY = os.environ.get("VAPID_PRIVATE_KEY")
 VAPID_PUBLIC_KEY = os.environ.get("VAPID_PUBLIC_KEY")
-VAPID_CLAIMS = {"sub": "mailto:YOUR_EMAIL@example.com"}
+VAPID_CLAIMS = {"sub": "mailto:jepjohn53@gmail.com"}
 
 # Function to get a database connection
 def get_db():
