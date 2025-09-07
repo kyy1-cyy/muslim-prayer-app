@@ -17,15 +17,32 @@ load_dotenv()
 # Flask App Initialization
 app = Flask(__name__)
 
+# Call init_db() here to ensure the database is created
+with app.app_context():
+    db = getattr(g, '_database', None)
+    if db is None:
+        db = g._database = sqlite3.connect('database.db')
+        db.row_factory = sqlite3.Row
+    cursor = db.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS settings (
+            id INTEGER PRIMARY KEY,
+            city TEXT,
+            country TEXT,
+            method INTEGER,
+            notifications TEXT,
+            subscription_info TEXT
+        )
+    ''')
+    db.commit()
+
 # Constants
 DATABASE = 'database.db'
-# API for Prayer Times
 ALADHAN_API = "http://api.aladhan.com/v1/timingsByCity"
 
-# VAPID Keys (replace with your actual keys from a service like web-push-key.com)
 VAPID_PRIVATE_KEY = os.environ.get("VAPID_PRIVATE_KEY")
 VAPID_PUBLIC_KEY = os.environ.get("VAPID_PUBLIC_KEY")
-VAPID_CLAIMS = {"sub": "mailto:jepjohn53@gmail.com"}
+VAPID_CLAIMS = {"sub": "mailto:YOUR_EMAIL@example.com"}
 
 # Function to get a database connection
 def get_db():
@@ -34,23 +51,6 @@ def get_db():
         db = g._database = sqlite3.connect(DATABASE)
         db.row_factory = sqlite3.Row
     return db
-
-# Initialize the database
-def init_db():
-    with app.app_context():
-        db = get_db()
-        cursor = db.cursor()
-        cursor.execute('''
-            CREATE TABLE IF NOT EXISTS settings (
-                id INTEGER PRIMARY KEY,
-                city TEXT,
-                country TEXT,
-                method INTEGER,
-                notifications TEXT,
-                subscription_info TEXT
-            )
-        ''')
-        db.commit()
 
 # Function to get prayer times from the API
 def get_prayer_times(city, country, method):
@@ -67,9 +67,7 @@ def get_prayer_times(city, country, method):
 # Function to convert 24-hour time string to 12-hour format with AM/PM
 def format_to_12h(time_str):
     if time_str:
-        # Parse the 24-hour time string
         dt_obj = datetime.strptime(time_str, '%H:%M')
-        # Format it into a 12-hour time string with AM/PM
         return dt_obj.strftime('%I:%M %p')
     return None
 
@@ -182,9 +180,9 @@ def location():
     if request.method == 'POST':
         city = request.form['city']
         country = request.form['country']
-
+        
         method = get_best_method(country)
-
+        
         db = get_db()
         db.execute('INSERT OR REPLACE INTO settings (id, city, country, method, notifications) VALUES (?, ?, ?, ?, ?)',
                    (1, city, country, method, json.dumps([])))
@@ -197,14 +195,13 @@ def push_subscribe():
     subscription_info = request.get_json()
     if not subscription_info:
         return jsonify({"error": "No subscription data provided"}), 400
-
+    
     db = get_db()
     db.execute("UPDATE settings SET subscription_info = ? WHERE id = 1", (json.dumps(subscription_info),))
     db.commit()
-
+    
     return jsonify({"success": True}), 200
 
 if __name__ == '__main__':
-    init_db()
     threading.Thread(target=notification_thread, daemon=True).start()
     app.run(debug=True)
